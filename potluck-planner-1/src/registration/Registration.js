@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Axios from 'axios'
 import formSchema from '../validation/formSchema'
 import * as yup from 'yup'
+import { RegStyles, ErrStyles } from '../styles/StyledRegistration'
 
 // initial values
 
@@ -19,18 +21,31 @@ const initialFormErrors = {
 
     }
 
+const initialUsers = []
 const initialDisabled = true    
 
 export default function Registration(props) {
     //props destructuring
 
     // state
+    const [users, setUsers] = useState(initialUsers)
     const [formErrors, setFormErrors] = useState(initialFormErrors)
     const [formValues, setFormValues] = useState(initialFormValues)
     const [disabled, setDisabled] = useState(initialDisabled)
 
 
     // axios calls
+    const postNewUser = newUser => {
+        Axios.post('https://potluckplanner1.herokuapp.com/auth/register', newUser)
+        .then(res => {
+          setUsers([res.data, ...users])
+          setFormValues(initialFormValues)
+          console.log(res.data, "here's the data")
+        })
+        .catch(err => {
+          console.log("Sorry New Orleans its all dark!")
+        })
+      }
 
     // form validation via yup
     const inputChange = (e) => {
@@ -62,14 +77,14 @@ export default function Registration(props) {
 
     // .a for new users
 
-    // const submit = (e) => {
-        // e.preventDefault()
-    //     const newUser = {
-    //       username: formValues.username.trim(),
-    //       password: formValues.password.trim(),
-    //     } 
-    //     postNewUser(newUser)
-    //   }
+    const submit = (e) => {
+        e.preventDefault()
+        const newUser = {
+          username: formValues.username.trim(),
+          password: formValues.password.trim(),
+        } 
+        postNewUser(newUser)
+      }
 
     //side effects
 
@@ -81,12 +96,13 @@ export default function Registration(props) {
 
     // return statement
     return (
-        <form /*onSubmit={onSubmit} */>
-            <div className='errors'>
+        <form onSubmit={submit}>
+            <ErrStyles className='errors'>
             <p id="para-one">{formErrors.username}</p>
             <p id="para-two">{formErrors.password}</p>
-        </div>
-        <div className='form-input'>
+        </ErrStyles>
+        <RegStyles className='form-input'>
+            <h2>Create an account</h2>
             <label>Name:&nbsp;
                 <input
                 onChange={inputChange} 
@@ -104,7 +120,9 @@ export default function Registration(props) {
                 />
             </label>
             <button disabled={disabled}>Register</button>
-            </div>
+            <Link to='/login'>Login</Link>
+            <Link to='/register'>Registration</Link>
+            </RegStyles>
         </form>
     )
 
