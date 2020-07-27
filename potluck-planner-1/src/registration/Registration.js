@@ -19,7 +19,7 @@ const initialFormErrors = {
 
     }
 
-
+const initialDisabled = true    
 
 export default function Registration(props) {
     //props destructuring
@@ -27,11 +27,15 @@ export default function Registration(props) {
     // state
     const [formErrors, setFormErrors] = useState(initialFormErrors)
     const [formValues, setFormValues] = useState(initialFormValues)
+    const [disabled, setDisabled] = useState(initialDisabled)
+
 
     // axios calls
 
     // form validation via yup
-    const inputChange = (name, value) => {
+    const inputChange = (e) => {
+        const { name, value } = e.target
+
         yup
         .reach(formSchema, name)
         .validate(value)
@@ -54,17 +58,30 @@ export default function Registration(props) {
         })
       }
 
-      const onInputChange = e => {
-        const { name, value } = e.target
-        inputChange(name, value)
-    }
     // form functionality
+
+    // .a for new users
+
+    // const submit = (e) => {
+        // e.preventDefault()
+    //     const newUser = {
+    //       username: formValues.username.trim(),
+    //       password: formValues.password.trim(),
+    //     } 
+    //     postNewUser(newUser)
+    //   }
 
     //side effects
 
+    useEffect(() => {
+        formSchema.isValid(formValues).then(valid => {
+          setDisabled(!valid);
+        });
+      }, [formValues]);
+
     // return statement
     return (
-        <form>
+        <form /*onSubmit={onSubmit} */>
             <div className='errors'>
             <p id="para-one">{formErrors.username}</p>
             <p id="para-two">{formErrors.password}</p>
@@ -72,7 +89,7 @@ export default function Registration(props) {
         <div className='form-input'>
             <label>Name:&nbsp;
                 <input
-                onChange={onInputChange} 
+                onChange={inputChange} 
                 placeholder='your name here'
                 name='username'
                 type='text'
@@ -80,13 +97,13 @@ export default function Registration(props) {
             </label>
             <label>Password:&nbsp;
                 <input 
-                onChange={onInputChange} 
+                onChange={inputChange} 
                 placeholder='your password here'
                 name='password'
                 type='text'
                 />
             </label>
-            <button>Register</button>
+            <button disabled={disabled}>Register</button>
             </div>
         </form>
     )
