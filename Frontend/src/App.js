@@ -9,13 +9,10 @@ import { Switch, Link, Route } from 'react-router-dom'
 
 function App() {
 
-
-
-
-
   return (
     <div className="App">
-      <Login />
+      <Route path='/'><Login /></Route>     
+      <Route path='/register'></Route>
     </div>
   );
 }
