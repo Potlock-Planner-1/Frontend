@@ -9,11 +9,12 @@ import {Link, useHistory} from 'react-router-dom'
 const LoginContainer = styled.div`
     display:flex;
     flex-flow: column;
-    background-color: snow;
+    background-color: #FFFFFF;
     border-radius: '10px';
     box-shadow: 5px, 2px;
     margin-right: 30%;
     margin-left: 30%;
+    border: 1px solid black;
 
     p{
         font-size: 0.8rem;
@@ -29,12 +30,11 @@ const initialLoginErrors = {
     username: '',
     password: '',
 }
-// const inititalLoginButtonDisable = true;
+
 export default function Login() {
     const { push } = useHistory();
     const [loginValues, setLoginValues] = useState(initialLoginValues)
     const [formErrors, setFormErrors] = useState(initialLoginErrors)
-    // const [disableBtn, setDisableBtn] = useState(inititalLoginButtonDisable)
 
 
     const onSubmit = event => {
@@ -45,7 +45,7 @@ export default function Login() {
     const onInputChange = event => {
         const {name, value} = event.target
         yup
-        .reach(formSchema, name)
+        .reach(formSchema, name) 
         .validate(value)
         .then(valid => {
           setFormErrors({
