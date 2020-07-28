@@ -1,5 +1,5 @@
 // form for the login
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import formSchema from './LoginSchema'
@@ -39,7 +39,8 @@ export default function Login() {
 
     const onSubmit = event => {
         event.preventDefault();
-    }
+        getUserData();
+    };
 
     const onInputChange = event => {
         const {name, value} = event.target
@@ -64,21 +65,19 @@ export default function Login() {
         })
     }
     const getUserData = () => {
-        axios.get('https://potluckplanner1.herokuapp.com/api/auth/login')
+        axios.post('https://potluckplanner1.herokuapp.com/api/auth/login', {
+            // login: http post with payload/body
+            username: loginValues.username,
+            password: loginValues.password
+        })
         .then( res => {
             console.log(res)
-            //localStorage.setItem('token', res.data.payload)
+            localStorage.setItem('token', res.data.payload)
         })
         .catch(err => {
             console.log(`The error is ${err}`)
         })
     }
-    useEffect(() => {
-        getUserData()
-    }, [])
-
-    
-
 
     return (
         <LoginContainer className="login-container">
