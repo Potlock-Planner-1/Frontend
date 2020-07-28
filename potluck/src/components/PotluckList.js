@@ -1,4 +1,5 @@
 import React from "react"
+import Potluck from './Potluck';
 
 const PotluckList = () => {
 
@@ -7,4 +8,6 @@ const PotluckList = () => {
         <Potluck />
         
     )
-}
+};
+
+export default PotluckList;
