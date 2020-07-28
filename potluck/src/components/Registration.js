@@ -36,7 +36,7 @@ export default function Registration(props) {
 
     // axios calls
     const postNewUser = newUser => {
-        Axios.post('https://potluckplanner1.herokuapp.com/auth/register', newUser)
+        Axios.post('https://potluckplanner1.herokuapp.com/api/auth/register', newUser)
         .then(res => {
           setUsers([res.data, ...users])
           setFormValues(initialFormValues)

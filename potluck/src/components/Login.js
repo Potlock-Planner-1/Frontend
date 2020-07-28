@@ -4,7 +4,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import formSchema from './LoginSchema'
 import * as yup from 'yup'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 
 const LoginContainer = styled.div`
     display:flex;
@@ -31,7 +31,7 @@ const initialLoginErrors = {
 }
 // const inititalLoginButtonDisable = true;
 export default function Login() {
-
+    const { push } = useHistory();
     const [loginValues, setLoginValues] = useState(initialLoginValues)
     const [formErrors, setFormErrors] = useState(initialLoginErrors)
     // const [disableBtn, setDisableBtn] = useState(inititalLoginButtonDisable)
@@ -72,7 +72,8 @@ export default function Login() {
         })
         .then( res => {
             console.log(res)
-            localStorage.setItem('token', res.data.payload)
+            localStorage.setItem('token', res.data.payload);
+            push('/');
         })
         .catch(err => {
             console.log(`The error is ${err}`)
