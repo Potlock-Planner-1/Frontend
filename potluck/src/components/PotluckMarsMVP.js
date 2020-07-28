@@ -9,10 +9,13 @@ export default function ({potluck}) {
     return (
         <ListStyles className='user-container'>
                 <h2>{potluck.name}</h2>
-                <p>{potluck.date}</p>
-                <p>{potluck.time}</p>
-                <p>{potluck.host}</p>
-                <p>{potluck.location}</p>
+                <ul>
+                    <li>{potluck.date}</li>
+                    <li>{potluck.time}</li>
+                    <li>{potluck.host}</li>
+                    <li>{potluck.location}</li>
+                </ul>
+
         </ListStyles>
     )
 }
