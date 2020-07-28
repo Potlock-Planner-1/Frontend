@@ -24,7 +24,7 @@ const PotluckList = () => {
         // <div className='container'>
         <Potluck />
         // {potlucks.map(potluck => {
-        //     return <div>
+        //     return <div key={potluck.id}>
         //         <h2>{potluck.name}</h2>
         //         <h2>{potluck.date}</h2>
         //         <h2>{potluck.time}</h2>
