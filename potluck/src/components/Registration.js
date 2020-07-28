@@ -40,10 +40,10 @@ export default function Registration(props) {
         .then(res => {
           setUsers([res.data, ...users])
           setFormValues(initialFormValues)
-          console.log(res.data, "here's the data")
+          console.log(res.data, "data sent to server!")
         })
         .catch(err => {
-          console.log("Sorry New Orleans its all dark!")
+          console.log("Snake eyes")
         })
       }
 
@@ -97,10 +97,6 @@ export default function Registration(props) {
     // return statement
     return (
         <form onSubmit={submit}>
-            <ErrStyles className='errors'>
-            <p id="para-one">{formErrors.username}</p>
-            <p id="para-two">{formErrors.password}</p>
-        </ErrStyles>
         <RegStyles className='form-input'>
             <h2>Create an account</h2>
             <label>Name:&nbsp;
@@ -123,6 +119,10 @@ export default function Registration(props) {
             <Link to='/login'>Login</Link>
             <Link to='/register'>Registration</Link>
             </RegStyles>
+            <ErrStyles className='errors'>
+            <p id="para-one">{formErrors.username}</p>
+            <p id="para-two">{formErrors.password}</p>
+        </ErrStyles>
         </form>
     )
 
