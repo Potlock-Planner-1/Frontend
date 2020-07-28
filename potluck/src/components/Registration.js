@@ -112,7 +112,7 @@ export default function Registration(props) {
                 onChange={inputChange} 
                 placeholder='your password here'
                 name='password'
-                type='text'
+                type='password'
                 />
             </label>
             <button disabled={disabled}>Register</button>
