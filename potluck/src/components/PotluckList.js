@@ -23,7 +23,7 @@ const PotluckList = () => {
 // }, [])
 
     return(
-        <div className='container'>
+        // <div className='container'>
         {/* <Potluck />
         {potlucks.map(potluck => {
             return (
@@ -31,7 +31,7 @@ const PotluckList = () => {
             )     
         })
         } */}
-    </div>
+    // </div>
     )
 };
 
