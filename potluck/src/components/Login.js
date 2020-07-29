@@ -6,18 +6,36 @@ import formSchema from './LoginSchema'
 import * as yup from 'yup'
 import {Link, useHistory} from 'react-router-dom'
 
+
+// styles for the login
 const LoginContainer = styled.div`
     display:flex;
     flex-flow: column;
     background-color: #FFFFFF;
-    border-radius: '10px';
+    border-radius: 10px;
     box-shadow: 5px, 2px;
     margin-right: 30%;
     margin-left: 30%;
-    border: 1px solid black;
+    background-color: mistyrose;
+    margin-top: 15%;
 
     p{
         font-size: 0.8rem;
+    }
+    button{
+        margin-right: 30%;
+        margin-left: 30%;
+    }
+    button{
+        background-color: wheat;
+        border:0.5px solid black;
+    }
+    .loginError{
+        color:red;
+        font-size:0.8rem;
+    }
+    #passInput{
+        margin-left: 0.6%;
     }
     
 `
@@ -40,10 +58,12 @@ export default function Login() {
     const onSubmit = event => {
         event.preventDefault();
         getUserData();
+        setLoginValues(initialLoginValues)
     };
 
     const onInputChange = event => {
         const {name, value} = event.target
+        // some validation, Joe needs for MVP don't delete please
         yup
         .reach(formSchema, name) 
         .validate(value)
@@ -82,6 +102,7 @@ export default function Login() {
 
     return (
         <LoginContainer className="login-container">
+            <h2>Potluck Planner</h2>
             <label>Username:
                 <input 
                 type='text'
@@ -90,15 +111,17 @@ export default function Login() {
                 value={loginValues.username}
                 onChange={onInputChange}
                 />
+                <div className="loginError">{formErrors.username}</div>
                 </label><br/>
-            <label>Password:
-                <input 
+            <label>Password:  
+                <input id="passInput"
                 type='password'
                 placeholder='Password'
                 name='password'
                 value={loginValues.password}
                 onChange={onInputChange}
                 />
+                <div className="loginError">{formErrors.password}</div>
             </label><br/>
             <Link to='/register'><p>Create an account</p></Link>
             <button id='login-button' onClick={onSubmit}>Log in</button>
