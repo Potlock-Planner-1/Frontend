@@ -33,6 +33,9 @@ export default function Registration(props) {
     const [formValues, setFormValues] = useState(initialFormValues)
     const [disabled, setDisabled] = useState(initialDisabled)
 
+    //additional hooks (not side effects)
+    const history = useHistory()
+
 
     // axios calls
     const postNewUser = newUser => {
@@ -41,6 +44,7 @@ export default function Registration(props) {
           setUsers([res.data, ...users])
           setFormValues(initialFormValues)
           console.log(res.data, "data sent to server!")
+          history.push("/login");
         })
         .catch(err => {
           console.log("Snake eyes")
@@ -74,7 +78,7 @@ export default function Registration(props) {
       }
 
     // form functionality
-
+  
     // .a for new users
 
     const submit = (e) => {
@@ -84,13 +88,6 @@ export default function Registration(props) {
           password: formValues.password.trim(),
         } 
         postNewUser(newUser)
-      }
-
-      // .b on click event to take you to login
-      const history = useHistory()
-
-      function handleClick() {
-        history.push("/login");
       }
 
     //side effects
@@ -122,7 +119,7 @@ export default function Registration(props) {
                 type='password'
                 />
             </label>
-            <button id="register-btn" onClick={handleClick} disabled={disabled}>Register</button>
+            <button id="register-btn" disabled={disabled}>Register</button>
             <Link to='/login'>Login</Link>
             <Link to='/register'>Registration</Link>
             </RegStyles>
