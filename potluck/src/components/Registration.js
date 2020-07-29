@@ -31,7 +31,7 @@ export default function Registration(props) {
     const [users, setUsers] = useState(initialUsers)
     const [formErrors, setFormErrors] = useState(initialFormErrors)
     const [formValues, setFormValues] = useState(initialFormValues)
-    const [disabled, setDisabled] = useState(initialDisabled)
+    const [disabled, setDisabled] = useState(initialDisabled);
 
     //additional hooks (not side effects)
     const history = useHistory()
@@ -42,6 +42,7 @@ export default function Registration(props) {
         Axios.post('https://potluckplanner1.herokuapp.com/api/auth/register', newUser)
         .then(res => {
           setUsers([res.data, ...users])
+          localStorage.setItem('userId', res.data.data.id)
           setFormValues(initialFormValues)
           console.log(res.data, "data sent to server!")
           history.push("/login");
