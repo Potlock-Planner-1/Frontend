@@ -92,7 +92,7 @@ export default function Login() {
         })
         .then( res => {
             console.log(res)
-            localStorage.setItem('token', res.data.payload);
+            localStorage.setItem('token', res.data.token);
             push('/');
         })
         .catch(err => {

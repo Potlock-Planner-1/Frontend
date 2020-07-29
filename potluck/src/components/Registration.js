@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Axios from 'axios'
 import formSchema from '../validation/formSchema'
 import * as yup from 'yup'
@@ -40,10 +40,10 @@ export default function Registration(props) {
         .then(res => {
           setUsers([res.data, ...users])
           setFormValues(initialFormValues)
-          console.log(res.data, "here's the data")
+          console.log(res.data, "data sent to server!")
         })
         .catch(err => {
-          console.log("Sorry New Orleans its all dark!")
+          console.log("Snake eyes")
         })
       }
 
@@ -86,6 +86,13 @@ export default function Registration(props) {
         postNewUser(newUser)
       }
 
+      // .b on click event to take you to login
+      const history = useHistory()
+
+      function handleClick() {
+        history.push("/login");
+      }
+
     //side effects
 
     useEffect(() => {
@@ -97,10 +104,6 @@ export default function Registration(props) {
     // return statement
     return (
         <form onSubmit={submit}>
-            <ErrStyles className='errors'>
-            <p id="para-one">{formErrors.username}</p>
-            <p id="para-two">{formErrors.password}</p>
-        </ErrStyles>
         <RegStyles className='form-input'>
             <h2>Create an account</h2>
             <label>Name:&nbsp;
@@ -116,13 +119,17 @@ export default function Registration(props) {
                 onChange={inputChange} 
                 placeholder='your password here'
                 name='password'
-                type='text'
+                type='password'
                 />
             </label>
-            <button disabled={disabled}>Register</button>
+            <button id="register-btn" onClick={handleClick} disabled={disabled}>Register</button>
             <Link to='/login'>Login</Link>
             <Link to='/register'>Registration</Link>
             </RegStyles>
+            <ErrStyles className='errors'>
+            <p id="para-one">{formErrors.username}</p>
+            <p id="para-two">{formErrors.password}</p>
+        </ErrStyles>
         </form>
     )
 
