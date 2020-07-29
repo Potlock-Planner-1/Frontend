@@ -122,7 +122,7 @@ export default function Registration(props) {
                 type='password'
                 />
             </label>
-            <button onClick={handleClick} disabled={disabled}>Register</button>
+            <button id="register-btn" onClick={handleClick} disabled={disabled}>Register</button>
             <Link to='/login'>Login</Link>
             <Link to='/register'>Registration</Link>
             </RegStyles>
