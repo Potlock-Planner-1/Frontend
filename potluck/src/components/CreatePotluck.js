@@ -46,8 +46,8 @@ export default function CreatePotluck() {
     const [potluck, setPotluck] = useState(nextPotluck);
     const [nextFoodItem, setNextFoodItem] = useState(initialFoodItem);
     const [foodItems, setFoodItems] = useState([]);
-    const [ guest, setGuest] = useState(firstGuest);
-    const [ guestList, setGuestList] = useState([]);
+    const [guest, setGuest] = useState(firstGuest);
+    const [guestList, setGuestList] = useState([]);
 
 
     const addPotluck = (evt) => {
@@ -57,41 +57,47 @@ export default function CreatePotluck() {
         axiosWithAuth()
             .post(`https://potluckplanner1.herokuapp.com/api/users/${userId}/potlucks`, potluck)
             .then(res => {
-                addFoodtoPotluck();
-                addGuesttoPotluck();
-                push('/');
+                axiosWithAuth()
+                    .get('https://potluckplanner1.herokuapp.com/api/potlucks')
+                    .then(res => {
+                        let list = res.data.filter(x => x.name === potluck.name)
+                        let potluckId = list[0].id
+                        addFoodtoPotluck(potluckId);
+                        addGuesttoPotluck(potluckId);
+                        push('/');
+                    })
             })
             .catch(err => console.log('ERROR'));
     };
 
     // Adding food to potluck after creating that potluck as it gets an id when created
-    const addFoodtoPotluck = () => {
+    const addFoodtoPotluck = (potluckId) => {
         // console.log('addFoodtoPotluck called');
         // console.log('items: ' + JSON.stringify(foodItems));
         let newList = [...foodItems];
         newList.map(x => {
-            x.potluck_id = potluck.id;
+            x.potluck_id = potluckId;
             axiosWithAuth()
-            // .put(`https://potluckplanner1.herokuapp.com/potlucks/${editPotluck.id}`, editPotluck)
-            .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, x)
-            .then(res => {
-                x.id = res.data.id;
-            })
-            .catch(err => console.log('ERROR'));
+                // .put(`https://potluckplanner1.herokuapp.com/potlucks/${editPotluck.id}`, editPotluck)
+                .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/items`, x)
+                .then(res => {
+                    x.id = res.data.id;
+                })
+                .catch(err => console.log('ERROR'));
         })
         setFoodItems(newList);
     };
 
-    const addGuesttoPotluck = () => {
-        let newGuestList = [...guest];
+    const addGuesttoPotluck = (potluckId) => {
+        let newGuestList = [...guestList];
         newGuestList.map(x => {
-            x.potluck_id =potluck.id;
+            x.potluck_id = potluckId;
             axiosWithAuth()
-            .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/guests`, x)
-            .then(res => {
-                x.id = res.data.id;
-            })
-            .catch(err => console.log('ERROR'));
+                .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/guests`, x)
+                .then(res => {
+                    x.id = res.data.id;
+                })
+                .catch(err => console.log('ERROR'));
         })
         setGuest(newGuestList);
     };
@@ -170,7 +176,6 @@ export default function CreatePotluck() {
                         value={potluck.time}
                         onChange={handleChange}
                     />
-                    <button className='Btn' onClick={addPotluck}>New Potluck</button>
                     {/* {
                         potluck.map(x => {
                             return <div key={x.id}>{x}</div>
@@ -188,8 +193,8 @@ export default function CreatePotluck() {
                     />
                     <button className='Btn' onClick={addFood}>Add Item</button>
                     {
-                        foodItems.map(x => { 
-                            return  <p key={x.item_name}><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                        foodItems.map(x => {
+                            return <p key={x.item_name}><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
                         })
                     }
                 </div>
@@ -204,11 +209,15 @@ export default function CreatePotluck() {
                     />
                     <button className='Btn' onClick={addGuest}>Add Guests</button>
                     {
-                        guestList.map(x => { 
-                            return  <p key={x.guest_name}><span role="img" aria-label=''>🍗</span>  {x.guest_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                        guestList.map(x => {
+                            return <p key={x.guest_name}><span role="img" aria-label=''>🍗</span>  {x.guest_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
                         })
                     }
                 </div>
+                <br/>
+                <br/>
+                <br/>
+                <button className='Btn' onClick={addPotluck}>Create Potluck</button>
             </form>
         </div>
     )
