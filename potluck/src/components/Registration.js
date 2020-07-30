@@ -102,7 +102,7 @@ export default function Registration(props) {
     return (
         <form onSubmit={submit}>
         <RegStyles className='form-input'>
-            <h2>Create an account</h2>
+            <h2>Create An Account</h2>
             <label>Name:&nbsp;
                 <input
                 onChange={inputChange} 
@@ -119,9 +119,8 @@ export default function Registration(props) {
                 type='password'
                 />
             </label>
+            <Link to='/login'><p>Login</p></Link>
             <button id="register-btn" disabled={disabled}>Register</button>
-            <Link to='/login'>Login</Link>
-            <Link to='/register'>Registration</Link>
             </RegStyles>
             <ErrStyles className='errors'>
             <p id="para-one">{formErrors.username}</p>
