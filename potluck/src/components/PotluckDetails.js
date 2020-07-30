@@ -117,6 +117,9 @@ export default function PotluckDetails() {
                 claimed: localStorage.getItem('userId')
             })
             .then(res => {
+                setClaimed({...claimed,
+                [itemId]: localStorage.getItem('userId')
+                })
             })
             .catch(err => console.log('ERROR'));
     };
@@ -147,8 +150,10 @@ export default function PotluckDetails() {
         })
     };
 
-    const guestClaimedFood = (guestId) =>{
-        return Object.values(claimed).indexOf(guestId) === -1? false: true;
+    const guestClaimedFood = (guest_name) =>{
+        let namesThatHaveClaimed = Object.values(claimed).map(x => userIdName[x]);
+        console.log(namesThatHaveClaimed);
+        return namesThatHaveClaimed.indexOf(guest_name) === -1 ? false: true;
     };
 
     if (!potluck.id) {
@@ -201,7 +206,7 @@ export default function PotluckDetails() {
             <h3>Guestlist</h3>
             {
                 guests.map(x => {
-                return <p key={x.id}> {x.guest_name} - {guestClaimedFood(x.id)? 'confirmed': 'pending'}</p>
+                return <p key={x.id}> {x.guest_name} - {guestClaimedFood(x.guest_name)? 'confirmed': 'pending'}</p>
                 })
             }
         </div>
