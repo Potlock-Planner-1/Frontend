@@ -131,20 +131,24 @@ export default function PotluckDetails() {
                     axiosWithAuth()
                         .get(`https://potluckplanner1.herokuapp.com/api/users/${x}`)
                         .then(res => {
-                            return {[x]: res.data.username};
+                            return { [x]: res.data.username };
                         })
                         .catch(err => console.log('ERROR'))
-                )    
+                )
             }
         })
         Promise.all(promises).then(results => {
             let newDict = {}
-            for(let i in results){
-                newDict= {...newDict, ...results[i]}
+            for (let i in results) {
+                newDict = { ...newDict, ...results[i] }
             }
             setUserIdName(newDict);
             console.log('newDict:' + JSON.stringify(newDict));
         })
+    };
+
+    const guestClaimedFood = (guestId) =>{
+        return Object.values(claimed).indexOf(guestId) === -1? false: true;
     };
 
     if (!potluck.id) {
@@ -163,25 +167,41 @@ export default function PotluckDetails() {
             <p>{potluck.time}<br /></p>
             <p>{potluck.location}<br /></p>
             <h3>Food Menu</h3>
-            {
-                items.map(x => {
-                    return <p key={x.id}>
-                        {x.item_name} - {claimed[x.id] ? `claimed by ${userIdName[claimed[x.id]]}`: 'unclaimed'}
-                        <span>
-                            {!claimed[x.id] &&
-                                <button onClick={() => claimFood(x.id)}>
-                                    Claim
+            <div>
+                {
+                    items.map(x => {
+                        return <p key={x.id}>
+                            {x.item_name} - {claimed[x.id] ? `claimed by ${userIdName[claimed[x.id]]}` : 'unclaimed'}
+                            <span>
+                                {!claimed[x.id] &&
+                                    <button onClick={() => claimFood(x.id)}>
+                                        Claim
                                             </button>
-                            }
-                        </span>
-                    </p>
-                })
-            }
+                                }
+                            </span>
+                        </p>
+                    })
+                }
+
+                {/* <input
+                    placeholder='Dish'
+                    type="text"
+                    name="item_name"
+                    value={nextFoodItem.item_name}
+                    onChange={handleChangeToNextFoodItem}
+                />
+                <button className='Btn' onClick={addFood}>Add Item</button>
+                {
+                    foodItems.map(x => {
+                        return <p key={x.item_name}><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                    })
+                } */}
+            </div>
             {/* items.filter(x => x.potluck_id === potluck.id) */}
             <h3>Guestlist</h3>
             {
                 guests.map(x => {
-                    return <p key={x.id}> {x.guest_name} </p>
+                return <p key={x.id}> {x.guest_name} - {guestClaimedFood(x.id)? 'confirmed': 'pending'}</p>
                 })
             }
         </div>
