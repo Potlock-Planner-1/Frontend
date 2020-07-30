@@ -171,7 +171,7 @@ export default function PotluckDetails() {
                 {
                     items.map(x => {
                         return <p key={x.id}>
-                            {x.item_name} - {claimed[x.id] ? `claimed by ${userIdName[claimed[x.id]]}` : 'unclaimed'}
+                            {x.item_name} - {claimed[x.id] && userIdName[claimed[x.id]]? `claimed by ${userIdName[claimed[x.id]]}` : 'unclaimed'}
                             <span>
                                 {!claimed[x.id] &&
                                     <button onClick={() => claimFood(x.id)}>
@@ -206,4 +206,4 @@ export default function PotluckDetails() {
             }
         </div>
     )
-};
+};  
