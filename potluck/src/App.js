@@ -13,7 +13,6 @@ function App() {
   return (
     <Router>
     <div className="App">
-      <Link to="/create-potluck">Time to gather</Link>
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path='/register' component={Registration} />
