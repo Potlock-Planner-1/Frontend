@@ -69,6 +69,16 @@ export default function CreatePotluck() {
             })
             .catch(err => console.log('ERROR'));
     };
+    const addGuest = (e) => {
+        e.preventDefault();
+        let userId = localStorage.getItem('userId');
+        axiosWithAuth()
+            .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${userId}/guests`, guest)
+            .then(res => {
+                inviteGuest();
+                console.log(`${guest}`)
+            })
+    }
 
     // Adding food to potluck after creating that potluck as it gets an id when created
     const addFoodtoPotluck = (potluckId) => {
@@ -134,6 +144,22 @@ export default function CreatePotluck() {
             [evt.target.name]: evt.target.value
         })
     };
+    const handleGuestChange = (e) => {
+        e.preventDefault();
+        setGuest({
+            ...guest,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const removeFood = food => {
+        console.log(foodItems)
+        axiosWithAuth()
+            .delete(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, food)
+            .then(res => {
+                console.log(res)
+            })
+    }
 
     const handleChangeGuest = (evt) => {
         evt.preventDefault();

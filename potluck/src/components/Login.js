@@ -1,6 +1,7 @@
 // form for the login
 import React, { useState } from 'react'
 import axios from 'axios'
+import { axiosWithAuth } from '../utils/axiosWithAuth'
 import styled from 'styled-components'
 import formSchema from './LoginSchema'
 import * as yup from 'yup'
@@ -85,19 +86,28 @@ export default function Login() {
         })
     }
     const getUserData = () => {
-        axios.post('https://potluckplanner1.herokuapp.com/api/auth/login', {
-            // login: http post with payload/body
-            username: loginValues.username,
-            password: loginValues.password
-        })
-        .then( res => {
+        // axios.post('https://potluckplanner1.herokuapp.com/api/auth/login', {
+        //     // login: http post with payload/body
+        //     username: loginValues.username,
+        //     password: loginValues.password
+        // })
+        // .then( res => {
+        //     console.log(res)
+        //     localStorage.setItem('token', res.data.token);
+        //     push('/');
+        // })
+        // .catch(err => {
+        //     console.log(`The error is ${err}`)
+        // })
+        axiosWithAuth()
+        .post('api/auth/login', loginValues)
+        .then(res => {
             console.log(res)
-            localStorage.setItem('token', res.data.token);
-            push('/');
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('username', loginValues.username)
+            push("/potluck-list") //<-- this is really the only thing I changed, good job on your axios call!
         })
-        .catch(err => {
-            console.log(`The error is ${err}`)
-        })
+        .catch(err => console.log(`The error is ${err}`))
     }
 
     return (
