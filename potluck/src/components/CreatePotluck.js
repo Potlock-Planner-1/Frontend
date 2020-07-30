@@ -14,12 +14,11 @@ const initialFoodItem = {
     item_name: '',
     claimed: 0,
     potluck_id: ''
-}
+};
 
-const initialGuest = {
-    id: '',
-    name: '',
-}
+const firstGuest = {
+    guest_name: ''
+};
 // get potlucks
 // {
 //     "id": 1,
@@ -38,21 +37,17 @@ const initialGuest = {
 // }
 // get guests
 // {
-//     "id": 4,
-//     "name": "parimala"
-// }
-// get users
-// {
 //     "id": 1,
-//     "username": "joe"
-// },
+//     "guest_name": "John"
+// }
 // passing the props or setting the state⭐️
 export default function CreatePotluck() {
     const { push } = useHistory();
     const [potluck, setPotluck] = useState(nextPotluck);
     const [nextFoodItem, setNextFoodItem] = useState(initialFoodItem);
     const [foodItems, setFoodItems] = useState([]);
-    const [guest, setGuest] = useState(initialGuest);
+    const [guest, setGuest] = useState(firstGuest);
+    const [guestList, setGuestList] = useState([]);
 
 
     const addPotluck = (evt) => {
@@ -62,8 +57,15 @@ export default function CreatePotluck() {
         axiosWithAuth()
             .post(`https://potluckplanner1.herokuapp.com/api/users/${userId}/potlucks`, potluck)
             .then(res => {
-                addFoodtoPotluck();
-                push('/');
+                axiosWithAuth()
+                    .get('https://potluckplanner1.herokuapp.com/api/potlucks')
+                    .then(res => {
+                        let list = res.data.filter(x => x.name === potluck.name)
+                        let potluckId = list[0].id
+                        addFoodtoPotluck(potluckId);
+                        addGuesttoPotluck(potluckId);
+                        push('/');
+                    })
             })
             .catch(err => console.log('ERROR'));
     };
@@ -79,21 +81,35 @@ export default function CreatePotluck() {
     }
 
     // Adding food to potluck after creating that potluck as it gets an id when created
-    const addFoodtoPotluck = () => {
+    const addFoodtoPotluck = (potluckId) => {
         // console.log('addFoodtoPotluck called');
         // console.log('items: ' + JSON.stringify(foodItems));
         let newList = [...foodItems];
         newList.map(x => {
-            x.potluck_id = potluck.id;
+            x.potluck_id = potluckId;
             axiosWithAuth()
                 // .put(`https://potluckplanner1.herokuapp.com/potlucks/${editPotluck.id}`, editPotluck)
-                .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, x)
+                .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/items`, x)
                 .then(res => {
                     x.id = res.data.id;
                 })
                 .catch(err => console.log('ERROR'));
         })
         setFoodItems(newList);
+    };
+
+    const addGuesttoPotluck = (potluckId) => {
+        let newGuestList = [...guestList];
+        newGuestList.map(x => {
+            x.potluck_id = potluckId;
+            axiosWithAuth()
+                .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/guests`, x)
+                .then(res => {
+                    x.id = res.data.id;
+                })
+                .catch(err => console.log('ERROR'));
+        })
+        setGuest(newGuestList);
     };
 
     const addFood = (evt) => {
@@ -104,13 +120,14 @@ export default function CreatePotluck() {
         });
     };
 
-    const inviteGuest = (e) => {
-        e.preventDefault();
+    const addGuest = (evt) => {
+        evt.preventDefault();
+        setGuestList([...guestList, guest]);
         setGuest({
-            ...guest,
-            [e.target.name]: e.target.value
+            ...guest
         })
-    }
+
+    };
 
     const handleChange = (evt) => {
         evt.preventDefault();
@@ -143,6 +160,14 @@ export default function CreatePotluck() {
                 console.log(res)
             })
     }
+
+    const handleChangeGuest = (evt) => {
+        evt.preventDefault();
+        setGuest({
+            ...guest,
+            [evt.target.name]: evt.target.value
+        });
+    };
 
     return (
         <div className='potluck-wrapper'>
@@ -177,7 +202,6 @@ export default function CreatePotluck() {
                         value={potluck.time}
                         onChange={handleChange}
                     />
-                    <button className='Btn' onClick={addPotluck}>New Potluck</button>
                     {/* {
                         potluck.map(x => {
                             return <div key={x.id}>{x}</div>
@@ -196,21 +220,30 @@ export default function CreatePotluck() {
                     <button className='Btn' onClick={addFood}>Add Item</button>
                     {
                         foodItems.map(x => {
-                            return <p key={x.item_name}><span onClick={removeFood}>x</span><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                            return <p key={x.item_name}><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
                         })
                     }
                 </div>
-                <div className='guest'>
-                    <h3>Invite Guests: </h3>
-                    <input 
-                    placeholder='Guest Username'
-                    type='text'
-                    name='name'
-                    value={guest.name}
-                    onChange={handleGuestChange}
+                <div className='guests'>
+                    <h3>Guests:</h3>
+                    <input
+                        placeholder='Guests'
+                        type="text"
+                        name="guest_name"
+                        value={guest.guest_name}
+                        onChange={handleChangeGuest}
                     />
-                    <button onClick={addGuest}>Invite Guest</button>
+                    <button className='Btn' onClick={addGuest}>Add Guests</button>
+                    {
+                        guestList.map(x => {
+                            return <p key={x.guest_name}><span role="img" aria-label=''>🍗</span>  {x.guest_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                        })
+                    }
                 </div>
+                <br/>
+                <br/>
+                <br/>
+                <button className='Btn' onClick={addPotluck}>Create Potluck</button>
             </form>
         </div>
     )

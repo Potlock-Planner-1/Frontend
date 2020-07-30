@@ -44,6 +44,7 @@
         
 
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import Potluck from './Potluck';
 import {axiosWithAuth} from '../utils/axiosWithAuth';
 
@@ -70,6 +71,7 @@ const PotluckList = () => {
 
     return (
         <div className='potluck-list'>
+            <Link to="/create-potluck">Create a Potluck</Link>
             {
                 potluckList.map(x => (
                     <div key={x.id}>
