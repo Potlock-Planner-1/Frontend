@@ -13,7 +13,7 @@ const Header = () => {
 return (
     <HeaderStyle>
         <div>
-        <h1>Putlock Planner</h1>
+        <h1>Potluck Planner</h1>
         </div>
         <nav>
         <button onClick={handleLogout}>Logout</button>

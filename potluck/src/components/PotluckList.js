@@ -71,7 +71,6 @@ const PotluckList = () => {
 
     return (
         <div className='potluck-list'>
-            <Link to="/create-potluck">Create a Potluck</Link>
             {
                 potluckList.map(x => (
                     <div key={x.id}>

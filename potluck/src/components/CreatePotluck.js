@@ -69,16 +69,16 @@ export default function CreatePotluck() {
             })
             .catch(err => console.log('ERROR'));
     };
-    const addGuest = (e) => {
-        e.preventDefault();
-        let userId = localStorage.getItem('userId');
-        axiosWithAuth()
-            .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${userId}/guests`, guest)
-            .then(res => {
-                inviteGuest();
-                console.log(`${guest}`)
-            })
-    }
+    // const addGuest = (e) => {
+    //     e.preventDefault();
+    //     let userId = localStorage.getItem('userId');
+    //     axiosWithAuth()
+    //         .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${userId}/guests`, guest)
+    //         .then(res => {
+    //             inviteGuest();
+    //             console.log(`${guest}`)
+    //         })
+    // }
 
     // Adding food to potluck after creating that potluck as it gets an id when created
     const addFoodtoPotluck = (potluckId) => {
