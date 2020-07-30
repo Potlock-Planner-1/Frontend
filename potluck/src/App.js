@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Registration from './components/Registration';
 import PotluckDetails from './components/PotluckDetails';
 
+
 function App() {
   return (
     <Router>
