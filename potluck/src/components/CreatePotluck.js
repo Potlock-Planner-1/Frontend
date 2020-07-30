@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 // Initialstate⭐️
 const nextPotluck = {
     name: '',
-    host: '',
     location: '',
     date: '',
     time: ''
@@ -50,12 +49,13 @@ export default function CreatePotluck() {
     const [foodItems, setFoodItems] = useState([]);
 
 
-    const addPotluck = (id) => {
-        // evt.preventDefault();
+    const addPotluck = (evt) => {
+        evt.preventDefault();
+        let userId = localStorage.getItem('userId');
+        console.log('userId:' + userId);
         axiosWithAuth()
-            .post(`https://potluckplanner1.herokuapp.com/api/users/${id}/potlucks`, potluck)
+            .post(`https://potluckplanner1.herokuapp.com/api/users/${userId}/potlucks`, potluck)
             .then(res => {
-                setPotluck(res.data);
                 addFoodtoPotluck();
                 push('/');
             })
@@ -64,12 +64,14 @@ export default function CreatePotluck() {
 
     // Adding food to potluck after creating that potluck as it gets an id when created
     const addFoodtoPotluck = () => {
+        // console.log('addFoodtoPotluck called');
+        // console.log('items: ' + JSON.stringify(foodItems));
         let newList = [...foodItems];
         newList.map(x => {
             x.potluck_id = potluck.id;
             axiosWithAuth()
             // .put(`https://potluckplanner1.herokuapp.com/potlucks/${editPotluck.id}`, editPotluck)
-            .post('https://potluckplanner1.herokuapp.com/api/items', x)
+            .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, x)
             .then(res => {
                 x.id = res.data.id;
             })
@@ -86,36 +88,21 @@ export default function CreatePotluck() {
         });
     };
 
-    // const changePotluckGuests = () => {
-    //     axioswithAuth()
-    //         .put('https://potluckplanner1.herokuapp.com/api/guests', editPotluck)
-    //         .then(res => {
-    //             seteditPotluck(res.data);
-    //             updatePotluck(res.data);
-    //             push('/');
-    //         })
-    //         .catch(err => console.log('ERROR'));
-    // };
-
     const handleChange = (evt) => {
         evt.preventDefault();
         setPotluck({
             ...potluck,
             [evt.target.name]: evt.target.value
         });
+    };
+
+    const handleChangeToNextFoodItem = (evt) => {
+        evt.preventDefault();
         setNextFoodItem({
             ...nextFoodItem,
             [evt.target.name]: evt.target.value
         })
     };
-
-    // const onCheckboxChange = (evt) => {
-    //     evt.persists();
-    //     setPotluck({
-    //         ...potluck,
-    //         [evt.target.name]: evt.target.value
-    //     });
-    // };
 
     return (
         <div className='potluck-wrapper'>
@@ -127,13 +114,6 @@ export default function CreatePotluck() {
                         type="text"
                         name="name"
                         value={potluck.name}
-                        onChange={handleChange}
-                    />
-                    <input
-                        placeholder='Host'
-                        type="text"
-                        name="host"
-                        value={potluck.host}
                         onChange={handleChange}
                     />
                     <input
@@ -171,7 +151,7 @@ export default function CreatePotluck() {
                         type="text"
                         name="item_name"
                         value={nextFoodItem.item_name}
-                        onChange={handleChange}
+                        onChange={handleChangeToNextFoodItem}
                     />
                     <button className='Btn' onClick={addFood}>Add Item</button>
                     {

@@ -56,7 +56,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\" : \"testuser1234\",\n    \"password\" : \"password1234\"\n}",
+					"raw": "{\n    \"username\" : \"testuser100\",\n    \"password\" : \"password100\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,7 +92,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks",
+					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks/",
 					"protocol": "https",
 					"host": [
 						"potluckplanner1",
@@ -101,7 +101,8 @@
 					],
 					"path": [
 						"api",
-						"potlucks"
+						"potlucks",
+						""
 					]
 				}
 			},
@@ -207,7 +208,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Jay's potluck\",\n    \"date\": \"08-01-2020\",\n    \"time\": \"12:00\",\n    \"location\": \"Bayarea\",\n    \"host\": \"Jay Leitch\"\n}",
+					"raw": "{\n    \"name\": \"Jay's potluck 100\",\n    \"date\": \"08-01-2020\",\n    \"time\": \"12:00\",\n    \"location\": \"Bayarea\",\n    \"host\": \"Jay Leitch\"\n}\n\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -215,7 +216,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks",
+					"raw": "https://potluckplanner1.herokuapp.com/api/users/100/potlucks",
 					"protocol": "https",
 					"host": [
 						"potluckplanner1",
@@ -224,6 +225,8 @@
 					],
 					"path": [
 						"api",
+						"users",
+						"100",
 						"potlucks"
 					]
 				}
@@ -298,6 +301,217 @@
 						"api",
 						"item",
 						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get guests for a potluck",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks/1/guests",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"potlucks",
+						"1",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get items of a potluck",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks/1/items",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"potlucks",
+						"1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a potluck by an user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sid's potluck15\",\n    \"date\": \"12-28-2020\",\n    \"time\": \"9:00\",\n    \"location\": \"San jose\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/users/15/potlucks",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"users",
+						"15",
+						"potlucks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add food item to a potluck",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n        \"name\": \"Party103\",\n        \"item_name\": \"pizza\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks/19/items",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"potlucks",
+						"19",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add guests to a potluck",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"guest_name\": \"Sid\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/potlucks/19/guests",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"potlucks",
+						"19",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create food item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"chicken pizza\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://potluckplanner1.herokuapp.com/api/items",
+					"protocol": "https",
+					"host": [
+						"potluckplanner1",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"items"
 					]
 				}
 			},

@@ -52,7 +52,7 @@ const PotluckList = () => {
 
     const fetchPotluckList = () => {
         axiosWithAuth()
-            .get('https://potluckplanner1.herokuapp.com/api/users/potlucks')
+            .get('https://potluckplanner1.herokuapp.com/api/potlucks')
             .then(res => {
                 setpotluckList(res.data)
             })

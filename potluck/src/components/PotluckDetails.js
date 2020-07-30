@@ -10,11 +10,27 @@ const nextPotluck = {
     time: ''
 };
 
+// get food items
+// {
+//     "id": 16,
+//     "item_name": "Chalupas",
+//     "claimed": 0,
+//     "potluck_id": 6
+// }
+// get guests
+// {
+//     "id": 1,
+//     "guest_name": "Jack",
+//     "potluck_id": 1
+//  }
+
 /* rendering all the details of a potluck on the webpage */ 
 export default function PotluckDetails() {
     const [potluck, setPotluck] = useState(nextPotluck);
     const [items, setItems] = useState([]);
     const [guests, setGuests] = useState([]);
+    const [claimed, setClaimed] = useState({});
+    let claimedDict = {};
     // const [editFoodItem, seteditFoodItem] = useState(initialFoodItem);
     const params = useParams();
 
@@ -28,18 +44,45 @@ export default function PotluckDetails() {
             .catch(err => console.log('ERROR'));
     };
 
-    const fetchFood= () => {
+    const fetchItemDetails = (i) => {
+        if (!items.length)
+            return;
+        console.log('items: ' + JSON.stringify(items));
+        console.log('claimed:' + JSON.stringify(claimed) + ' expanded claimed: ' + JSON.stringify({...claimed}));
+
         axiosWithAuth()
-            .get('https://potluckplanner1.herokuapp.com/api/items')
+            .get(`https://potluckplanner1.herokuapp.com/api/items/${items[i].id}`)
+            .then(res => {
+                claimedDict[items[i].id] = res.data.claimed;
+                if (i === items.length - 1) {
+                    console.log('Now setting claimed: ' + JSON.stringify(claimedDict));
+                    setClaimed({...claimedDict});
+                } else {
+                    console.log('i: ' + i + ' items.length: ' + items.length);
+                    i++;
+                    if (i < items.length) {
+                        fetchItemDetails(i);  
+                    }
+                }
+            })
+    }
+
+    const fetchItemsInPotluck= () => {
+        if (!potluck.id)
+            return;
+        axiosWithAuth()
+            .get(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`)
             .then((res) => {
                 setItems(res.data);
             })
             .catch((err) => console.log(err.response));
     };
 
-    const fetchClaimers = () => {
+    const fetchGuests = () => {
+        if (!potluck.id)
+            return;
         axiosWithAuth()
-            .get('https://potluckplanner1.herokuapp.com/api/guests')
+            .get(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/guests`)
             .then(res => {
                 setGuests(res.data);
             })
@@ -51,45 +94,24 @@ export default function PotluckDetails() {
     }, []);
 
     useEffect(() => {
-        fetchFood();
+        fetchItemsInPotluck();
     }, [potluck]);
 
     useEffect(() => {
-        fetchClaimers();
+        let currentIndex = 0;
+        fetchItemDetails(currentIndex);
     }, [items]);
 
-    // const changePotluckGuests = () => {
-    //     axioswithAuth()
-    //         .put('https://potluckplanner1.herokuapp.com/api/guests', editPotluck)
-    //         .then(res => {
-    //             seteditPotluck(res.data);
-    //             updatePotluck(res.data);
-    //             push('/');
-    //         })
-    //         .catch(err => console.log('ERROR'));
-    // };
-
-    // const handleChange = (evt) => {
-    //     evt.persists();
-    //     seteditFoodItem({
-    //         ...editPotluck,
-    //         [evt.target.name]: evt.target.value
-    //     });
-    // };
-
-    // const onCheckboxChange = (evt) => {
-    //     evt.persists();
-    //     seteditPotluck({
-    //         ...editPotluck,
-    //         [evt.target.name]: evt.target.value
-    //     });
-    // };
+    useEffect(() => {
+        fetchGuests();
+    }, [potluck]);
 
     if (!potluck.id) {
         return <div>Loading potluck information...</div>;
     };
     console.log(items);
     console.log(potluck);
+    console.log('claimed: ' + JSON.stringify(claimed));
     return (
         <div className='potluck-details'>
             <h1>Potluck</h1>
@@ -98,9 +120,29 @@ export default function PotluckDetails() {
             <p>{potluck.date}<br /></p>
             <p>{potluck.time}<br /></p>
             <p>{potluck.location}<br /></p>
+            <h3>Food Menu</h3>
             {
-                items.filter(x => x.potluck_id === potluck.id).map(x => (
-                      <p key={x.id}> {x.item_name} - {x.claimed ? 'claimed' : 'unclaimed'}<br/></p>))
+                items.map(x => 
+                    {
+                        return <p key={x.id}>
+                                    {x.item_name} - {claimed[x.id] ? 'claimed' : 'unclaimed'}
+                                    <span>
+                                        {!claimed[x.id] && 
+                                            <button>
+                                                Claim
+                                            </button>
+                                        }
+                                    </span>
+                                </p>
+                    }
+                )
+            }
+            {/* items.filter(x => x.potluck_id === potluck.id) */}
+            <h3>Guestlist</h3>
+            {
+                guests.map(x => {
+                  return  <p key={x.id}> {x.guest_name} </p>
+                })
             }
         </div>
     )
