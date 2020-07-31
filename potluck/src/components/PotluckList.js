@@ -44,7 +44,6 @@
         
 
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import Potluck from './Potluck';
 import {axiosWithAuth} from '../utils/axiosWithAuth';
 import { PotluckListDiv, PotluckDiv } from '../styles/StyledPotluck';

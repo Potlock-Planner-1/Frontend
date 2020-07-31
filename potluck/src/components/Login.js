@@ -1,6 +1,5 @@
 // form for the login
 import React, { useState } from 'react'
-import axios from 'axios'
 import { axiosWithAuth } from '../utils/axiosWithAuth'
 import styled from 'styled-components'
 import formSchema from './LoginSchema'

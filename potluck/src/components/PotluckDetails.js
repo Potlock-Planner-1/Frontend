@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useParams } from 'react-router-dom';
 import { PotluckDetailsDiv } from '../styles/StyledPotluck';
+import UpdatePotluck from './UpdatePotluck';
 
 const nextPotluck = {
     name: '',
@@ -33,7 +34,8 @@ export default function PotluckDetails() {
     const [claimed, setClaimed] = useState({});
     const [userIdName, setUserIdName] = useState({});
     const [hostName, setHostName] = useState('');
-    let claimedDict = {};
+    const [editing, setEditing] = useState(false);
+    let claimedDict = {}; 
     // const [editFoodItem, seteditFoodItem] = useState(initialFoodItem);
     const params = useParams();
 
@@ -104,6 +106,10 @@ export default function PotluckDetails() {
     useEffect(() => {
         fetchPotluck();
     }, []);
+
+    useEffect(() => {
+        fetchPotluck();
+    }, [editing]);
 
     useEffect(() => {
         fetchItemsInPotluck();
@@ -193,7 +199,11 @@ export default function PotluckDetails() {
             setGuests(remainingGuests);
         })
         .catch(err => 'ERROR');
-    }
+    };
+
+    const editPotluckDetails = () => {
+        setEditing(true);
+    };
 
     if (!potluck.id) {
         return <div>Loading potluck information...</div>;
@@ -204,11 +214,12 @@ export default function PotluckDetails() {
     console.log('userIdName: ' + JSON.stringify(userIdName))
     return (
         <PotluckDetailsDiv>
-            <h2>{potluck.name}</h2>
+            <h2>{potluck.name}<button className='Btn' onClick={editPotluckDetails}>Edit</button></h2>
             {hostName && hostName.length && <h2>Host: {hostName}</h2>}
             <p>When: {potluck.date}<br /></p>
             <p>Time: {potluck.time}<br /></p>
             <p>Where: {potluck.location}<br /></p>
+            {editing && <UpdatePotluck potluckId={potluck.id} setEditing={setEditing}/>}
             <h3>Food Menu</h3>
             <div>
                 {
@@ -246,7 +257,7 @@ export default function PotluckDetails() {
             {
                 guests.map(x => {
                 return <p key={x.id}> 
-                <button onClick={() => deleteGuest(x.id)}> X </button>
+                <button onClick={() => deleteGuest(x.id)}> Delete </button>
                 {x.guest_name} - {guestClaimedFood(x.guest_name)? 'confirmed': 'pending'}
                 </p>
                 })

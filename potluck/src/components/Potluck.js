@@ -10,7 +10,7 @@ export default function Potluck({ potluck }) {
     return (
         <div>
             <button className='Btn' onClick={() => push(`/potluck/${potluck.id}`, potluck)}>
-            <img src={url} />
+            <img src={url} alt=''/>
             <h2>{potluck.name}</h2>
             <h2>{potluck.host}</h2>
             <p>{potluck.date}<br /></p>

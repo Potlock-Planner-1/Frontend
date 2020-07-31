@@ -160,22 +160,6 @@ export default function CreatePotluck() {
             [evt.target.name]: evt.target.value
         })
     };
-    const handleGuestChange = (e) => {
-        e.preventDefault();
-        setGuest({
-            ...guest,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const removeFood = food => {
-        console.log(foodItems)
-        axiosWithAuth()
-            .delete(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, food)
-            .then(res => {
-                console.log(res)
-            })
-    }
 
     const handleChangeGuest = (evt) => {
         evt.preventDefault();
