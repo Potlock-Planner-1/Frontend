@@ -140,7 +140,7 @@ export default function CreatePotluck() {
         evt.preventDefault();
         setGuestList([...guestList, guest]);
         setGuest({
-            ...guest
+            ...firstGuest
         })
 
     };
@@ -236,7 +236,7 @@ export default function CreatePotluck() {
                     <button className='Btn' onClick={addFood}>Add Item</button>
                     {
                         foodItems.map(x => {
-                            return <p key={x.item_name}><span role="img" aria-label=''>🍗</span>  {x.item_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                            return <p key={x.item_name}><span role="img" aria-label=''> 🍗 &nbsp;</span>  {x.item_name}<span role="img" aria-label=''> &nbsp;🌭 </span><br /></p>
                         })
                     }
                 </div>
@@ -252,7 +252,7 @@ export default function CreatePotluck() {
                     <button className='Btn' onClick={addGuest}>Add Guests</button>
                     {
                         guestList.map(x => {
-                            return <p key={x.guest_name}><span role="img" aria-label=''>🍗</span>  {x.guest_name}<span role="img" aria-label=''> 🌭 </span><br /></p>
+                            return <p key={x.guest_name}><span role="img" aria-label=''> 🙎‍♂️&nbsp; </span>  {x.guest_name}<span role="img" aria-label=''> &nbsp;🙍‍♀️ </span><br /></p>
                         })
                     }
                 </div>

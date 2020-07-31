@@ -7,16 +7,20 @@ display: flex;
 flex-wrap: wrap;
 align-items: center;
 position: relative;
-// background-image: linear-gradient(lightyellow, #faf54e);
-background-image: linear-gradient( light green, green);
-border-radius: 20px;
-padding: 16px;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+// background-image: linear-gradient(lightyellow, #fff5f4);
+// background-image: linear-gradient( #006400, #00FF00);
+// border-radius: 20px;
+// padding: 16px;
+// box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `
 const PotluckDiv = styled.div`
 width: 40%;
 margin-left: 5%;
 .Btn {
+    // background-image: linear-gradient( #ffe4e1, #ffecea);
+    // border-radius: 20px;
+    // padding: 16px;
+    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     width: 100%;
     margin: 10px;
 }
@@ -26,7 +30,7 @@ width: 80%;
 margin: auto;
 padding: 20px 20px;
 text-align: center;
-border: 3px solid mistyrose;
+border: 3px solid #ffafa8;
 border-radius: 6px;
 
 button {
@@ -46,7 +50,7 @@ width: 80%;
 margin: auto;
 padding: 20px 20px;
 text-align: center;
-border: 3px solid mistyrose;
+border: 3px solid #ffafa8;
 border-radius: 6px;
 
 button {

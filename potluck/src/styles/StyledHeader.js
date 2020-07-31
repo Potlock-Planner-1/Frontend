@@ -12,7 +12,7 @@ const HeaderStyle = styled.div`
         width: 100px;
         margin: 1%;
         padding: 3px;
-        background-color: white;
+        background-color: mistyrose;
         border: 1px solid black;
         border-radius: 5px;
         font-size: 1em;
@@ -26,6 +26,7 @@ const HeaderStyle = styled.div`
         margin: 1%;
         padding: 3px;
         text-decoration: none;
+        background-color: mistyrose;
         border: 1px solid black;
         border-radius: 5px;
         color: black;

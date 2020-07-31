@@ -161,6 +161,28 @@ export default function PotluckDetails() {
         return namesThatHaveClaimed.indexOf(guest_name) === -1 ? false: true;
     };
 
+    const deleteItem = (itemId) => {
+        axiosWithAuth()
+        .delete(`https://potluckplanner1.herokuapp.com/api/items/${itemId}`)
+        .then(res =>{
+            console.log('Item deleted');
+            let remainingItems =  items.filter(x => x.id !== itemId);
+            setItems(remainingItems);
+        })
+        .catch(err => 'ERROR');
+    };
+
+    const deleteGuest = (guestId) => {
+        axiosWithAuth()
+        .delete(`https://potluckplanner1.herokuapp.com/api/guests/${guestId}`)
+        .then(res =>{
+            console.log('Item deleted');
+            let remainingGuests =  guests.filter(x => x.id !== guestId);
+            setGuests(remainingGuests);
+        })
+        .catch(err => 'ERROR');
+    }
+
     if (!potluck.id) {
         return <div>Loading potluck information...</div>;
     };
@@ -180,12 +202,13 @@ export default function PotluckDetails() {
                 {
                     items.map(x => {
                         return <p key={x.id}>
+                            <button onClick={() => deleteItem(x.id)}> X </button>
                             {x.item_name} - {claimed[x.id] && userIdName[claimed[x.id]]? `claimed by ${userIdName[claimed[x.id]]}` : 'unclaimed'}
                             <span>
                                 {!claimed[x.id] &&
                                     <button onClick={() => claimFood(x.id)}>
                                         Claim
-                                            </button>
+                                    </button>
                                 }
                             </span>
                         </p>
@@ -210,7 +233,10 @@ export default function PotluckDetails() {
             <h3>Guestlist</h3>
             {
                 guests.map(x => {
-                return <p key={x.id}> {x.guest_name} - {guestClaimedFood(x.guest_name)? 'confirmed': 'pending'}</p>
+                return <p key={x.id}> 
+                <button onClick={() => deleteGuest(x.id)}> X </button>
+                {x.guest_name} - {guestClaimedFood(x.guest_name)? 'confirmed': 'pending'}
+                </p>
                 })
             }
         </PotluckDetailsDiv>
