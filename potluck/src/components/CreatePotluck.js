@@ -58,7 +58,7 @@ export default function CreatePotluck() {
     const addPotluck = (evt) => {
         evt.preventDefault();
         let userId = localStorage.getItem('userId');
-        console.log('userId:' + userId);
+
         axiosWithAuth()
             .post(`https://potluckplanner1.herokuapp.com/api/users/${userId}/potlucks`, potluck)
             .then(res => {
@@ -73,8 +73,7 @@ export default function CreatePotluck() {
         axiosWithAuth()
             .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${userId}/guests`, guest)
             .then(res => {
-                inviteGuest();
-                console.log(`${guest}`)
+                console.log(res)
             })
     }
 
@@ -136,7 +135,7 @@ export default function CreatePotluck() {
     }
 
     const removeFood = food => {
-        console.log(foodItems)
+        // console.log(foodItems)
         axiosWithAuth()
             .delete(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/items`, food)
             .then(res => {

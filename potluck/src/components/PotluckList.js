@@ -46,6 +46,7 @@
 import React, { useState, useEffect } from "react";
 import Potluck from './Potluck';
 import {axiosWithAuth} from '../utils/axiosWithAuth';
+import { PotlucklistStyled } from '../styles/StyledPotluckList'
 
 const PotluckList = () => {
     const [potluckList, setpotluckList] = useState([]);
@@ -69,15 +70,15 @@ const PotluckList = () => {
 
 
     return (
-        <div className='potluck-list'>
+        <PotlucklistStyled className='potluck-list'>
             {
                 potluckList.map(x => (
-                    <div key={x.id}>
+                    <div  key={x.id}>
                         <Potluck potluck={x} />
                     </div>
                 ))
             }
-        </div>
+        </PotlucklistStyled>
 
     )
 };

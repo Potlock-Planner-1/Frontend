@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useParams } from 'react-router-dom';
+// import GuestList from "./GuestList"
+import { PotluckDetailsStyled } from "../styles/StyledPotluckList"
 
 const nextPotluck = {
     name: '',
@@ -9,6 +11,8 @@ const nextPotluck = {
     date: '',
     time: ''
 };
+
+
 
 // get food items
 // {
@@ -24,15 +28,28 @@ const nextPotluck = {
 //     "potluck_id": 1
 //  }
 
-/* rendering all the details of a potluck on the webpage */ 
+/* rendering all the details of a potluck on the webpage */
 export default function PotluckDetails() {
     const [potluck, setPotluck] = useState(nextPotluck);
     const [items, setItems] = useState([]);
     const [guests, setGuests] = useState([]);
     const [claimed, setClaimed] = useState({});
+
     let claimedDict = {};
     // const [editFoodItem, seteditFoodItem] = useState(initialFoodItem);
     const params = useParams();
+
+    // const newGuest = {
+    //     id: Number(window.localStorage.getItem('userId')),
+    //     guest_name: window.localStorage.getItem('username'),
+    //     potluck_id: params.id,
+    // }
+
+    const newGuest = {
+        id: Number(window.localStorage.getItem('userId')),
+        guest_name: window.localStorage.getItem('username'),
+        name: potluck.name,
+    }
 
     // fetching potluck👍
     const fetchPotluck = () => {
@@ -48,7 +65,7 @@ export default function PotluckDetails() {
         if (!items.length)
             return;
         console.log('items: ' + JSON.stringify(items));
-        console.log('claimed:' + JSON.stringify(claimed) + ' expanded claimed: ' + JSON.stringify({...claimed}));
+        console.log('claimed:' + JSON.stringify(claimed) + ' expanded claimed: ' + JSON.stringify({ ...claimed }));
 
         axiosWithAuth()
             .get(`https://potluckplanner1.herokuapp.com/api/items/${items[i].id}`)
@@ -56,18 +73,18 @@ export default function PotluckDetails() {
                 claimedDict[items[i].id] = res.data.claimed;
                 if (i === items.length - 1) {
                     console.log('Now setting claimed: ' + JSON.stringify(claimedDict));
-                    setClaimed({...claimedDict});
+                    setClaimed({ ...claimedDict });
                 } else {
                     console.log('i: ' + i + ' items.length: ' + items.length);
                     i++;
                     if (i < items.length) {
-                        fetchItemDetails(i);  
+                        fetchItemDetails(i);
                     }
                 }
             })
     }
 
-    const fetchItemsInPotluck= () => {
+    const fetchItemsInPotluck = () => {
         if (!potluck.id)
             return;
         axiosWithAuth()
@@ -88,6 +105,30 @@ export default function PotluckDetails() {
             })
             .catch(err => console.log('ERROR'));
     };
+    const joinAsGuest = () => {
+        // axiosWithAuth()
+        //     .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/guests`, newGuest)
+        //     .then(res => {
+        //         setGuests([
+        //             ...guests,
+        //             res.data
+        //         ])
+        //         axiosWithAuth()
+        //             .get(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluck.id}/guests`)
+        //             .then(res => {
+        //                 setGuests(res.data);
+        //             })
+        //     .catch(err => window.alert(err))
+
+        //     })
+
+        setGuests([...guests, newGuest])
+    }
+
+    const deleteGuest = () => {
+        axiosWithAuth()
+            .delete(`/api/guest/${newGuest.id}`)
+    }
 
     useEffect(() => {
         fetchPotluck();
@@ -113,37 +154,45 @@ export default function PotluckDetails() {
     console.log(potluck);
     console.log('claimed: ' + JSON.stringify(claimed));
     return (
-        <div className='potluck-details'>
+        <PotluckDetailsStyled className='potluck-details'>
             <h1>Potluck</h1>
-            <h2>{potluck.name}</h2>
+            <div className='potluck-header'>
+                <h2>{potluck.name}</h2>
+                <button onClick={joinAsGuest}>Join This Potluck</button>
+            </div>
             <h2>{potluck.host}</h2>
-            <p>{potluck.date}<br /></p>
-            <p>{potluck.time}<br /></p>
-            <p>{potluck.location}<br /></p>
-            <h3>Food Menu</h3>
-            {
-                items.map(x => 
+            <p>Date: {potluck.date}<br /></p>
+            <p>Time: {potluck.time}<br /></p>
+            <p>Location: {potluck.location}<br /></p>
+            <div className="detailsContainer">
+                <div className="foodContainer">
+                    <h3>Food Menu</h3>
                     {
-                        return <p key={x.id}>
-                                    {x.item_name} - {claimed[x.id] ? 'claimed' : 'unclaimed'}
-                                    <span>
-                                        {!claimed[x.id] && 
-                                            <button>
-                                                Claim
+                        items.map(x => {
+                            return <p key={x.id}>
+                                {x.item_name} - {claimed[x.id] ? 'claimed' : 'unclaimed'}
+                                <span>
+                                    {!claimed[x.id] &&
+                                        <button>
+                                            Claim
                                             </button>
-                                        }
-                                    </span>
-                                </p>
+                                    }
+                                </span>
+                            </p>
+                        }
+                        )
                     }
-                )
-            }
-            {/* items.filter(x => x.potluck_id === potluck.id) */}
-            <h3>Guestlist</h3>
-            {
-                guests.map(x => {
-                  return  <p key={x.id}> {x.guest_name} </p>
-                })
-            }
-        </div>
+                    {/* items.filter(x => x.potluck_id === potluck.id) */}
+                </div>
+                <div className="guestContainer">
+                    <h3>Guestlist</h3>
+                    {
+                        guests.map(guest => {
+                            return <p key={guest.id}>{guest.guest_name}</p>
+                        })
+                    }
+                </div>
+            </div>
+        </PotluckDetailsStyled>
     )
 };

@@ -102,7 +102,6 @@ export default function Login() {
         axiosWithAuth()
         .post('api/auth/login', loginValues)
         .then(res => {
-            console.log(res)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('username', loginValues.username)
             push("/potluck-list") //<-- this is really the only thing I changed, good job on your axios call!

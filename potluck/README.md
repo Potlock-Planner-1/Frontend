@@ -1,3 +1,13 @@
+# Frontend
+To get into this project you need to CD into Potluck.
+Mars had created a PotluckListMarsMVP and PotluckMarsMVP to show that he can make an axios request to display data in a component, these files are not used in our app, they are just there so he can meet what is required of him. Mars had also built the register form.
+
+Under the PotluckList.js, Joe has the same thing for the same reason, except it is commented out. Joe had also built the Login form.
+
+Primala had set up the functionality for creating potlucks in CreatePotluck.js and she had set up the functionality in fetching data from the backend to display all the potlucks and guests under PotluckDetails.
+
+Marina had attempted to add editing functionality to the guestlist under PotluckDetails so that a guest could join a potluck, but she had struggled with the endpoints. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

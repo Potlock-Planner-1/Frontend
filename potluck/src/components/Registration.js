@@ -42,7 +42,7 @@ export default function Registration(props) {
         Axios.post('https://potluckplanner1.herokuapp.com/api/auth/register', newUser)
         .then(res => {
           setUsers([res.data, ...users])
-          localStorage.setItem('userId', res.data.data.id)
+          localStorage.setItem('userId', Number(res.data.data.id))
           setFormValues(initialFormValues)
           console.log(res.data, "data sent to server!")
           history.push("/login");
