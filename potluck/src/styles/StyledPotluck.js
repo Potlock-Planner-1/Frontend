@@ -26,14 +26,14 @@ width: 80%;
 margin: auto;
 padding: 20px 20px;
 text-align: center;
-border: 3px solid turquoise;
+border: 3px solid mistyrose;
 border-radius: 6px;
 
 button {
     padding: 5px 5px;
     margin: 10px 10px;
     color: blue;
-    background-color: coral;
+    background-color: mistyrose;
     border: 1px solid black;
     border-radius: 4px;
     :hover{
@@ -46,7 +46,7 @@ width: 80%;
 margin: auto;
 padding: 20px 20px;
 text-align: center;
-border: 3px solid turquoise;
+border: 3px solid mistyrose;
 border-radius: 6px;
 
 button {
@@ -54,7 +54,7 @@ button {
     margin: 10px 10px;
     color: blue;
     font-weight: bold;
-    background-color: coral;
+    background-color: mistyrose;
     border: 1px solid black;
     border-radius: 4px;
     :hover{

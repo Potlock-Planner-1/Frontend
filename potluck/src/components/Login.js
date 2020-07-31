@@ -10,6 +10,7 @@ import {Link, useHistory} from 'react-router-dom'
 
 // styles for the login
 const LoginContainer = styled.div`
+    text-align: center;
     display:flex;
     flex-flow: column;
     background-color: #FFFFFF;
@@ -24,8 +25,7 @@ const LoginContainer = styled.div`
         font-size: 0.8rem;
     }
     button{
-        margin-right: 30%;
-        margin-left: 30%;
+        margin: 20px 30%;
     }
     button{
         background-color: wheat;
@@ -105,6 +105,16 @@ export default function Login() {
             console.log(res)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('username', loginValues.username)
+            axiosWithAuth()
+            .get('https://potluckplanner1.herokuapp.com/api/users')
+            .then(res => {
+                res.data.map(x => {
+                    if(x.username === loginValues.username) {
+                        localStorage.setItem('userId', x.id)
+                        console.log('Found the user');
+                    }
+                })
+            })
             push("/potluck-list") //<-- this is really the only thing I changed, good job on your axios call!
         })
         .catch(err => console.log(`The error is ${err}`))
@@ -112,7 +122,7 @@ export default function Login() {
 
     return (
         <LoginContainer className="login-container">
-            <h2>Potluck Planner</h2>
+            <h2>LOGIN</h2>
             <label>Username:
                 <input 
                 type='text'

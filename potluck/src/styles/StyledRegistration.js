@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 const RegStyles = styled.div`
+    text-align: center;
     display:flex;
     flex-flow: column;
     background-color: mistyrose;
@@ -17,9 +18,7 @@ const RegStyles = styled.div`
         border:0.5px solid black;
         background-color: wheat;
         width: 50%;
-        margin-top: 1%;
-        margin-left:  25%;
-        margin-right:  25%;
+        margin: 20px 30%;
     }
 
     p {
