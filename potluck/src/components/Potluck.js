@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function Potluck({ potluck }) {
     const { push } = useHistory();
-    const words = ['pasta', 'noodles', 'pizza', 'dimsum', 'burger', 'hotdog', 'soda', 'chips', 'idli', 'cake', 'sandwich'];
+    const words = ['pasta', 'noodles', 'pizza', 'dimsum', 'burger', 'hotdog', 'soda', 'chips', 'idli', 'cake', 'sandwich', 'pie', 'icecream', 'chicken wings']
     const randomNum = Math.floor(Math.random() * words.length);
     console.log('randomNum: ' + randomNum);
     const url = `https://source.unsplash.com/random/200x150/?${words[randomNum]}`;

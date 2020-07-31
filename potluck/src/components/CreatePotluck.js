@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
+import { CreatePotluckDiv } from '../styles/StyledPotluck';
 
 // Initialstate⭐️
 const nextPotluck = {
@@ -185,7 +186,7 @@ export default function CreatePotluck() {
     };
 
     return (
-        <div className='potluck-wrapper'>
+        <CreatePotluckDiv>
             <h1>Potluck</h1>
             <form className='details-form'>
                 <div className='create-potluck'>
@@ -260,6 +261,6 @@ export default function CreatePotluck() {
                 <br/>
                 <button className='Btn' onClick={addPotluck}>Create Potluck</button>
             </form>
-        </div>
+        </CreatePotluckDiv>
     )
 };

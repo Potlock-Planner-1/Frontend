@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useParams } from 'react-router-dom';
+import { PotluckDetailsDiv } from '../styles/StyledPotluck';
 
 const nextPotluck = {
     name: '',
@@ -168,7 +169,7 @@ export default function PotluckDetails() {
     console.log('claimed: ' + JSON.stringify(claimed));
     console.log('userIdName: ' + JSON.stringify(userIdName))
     return (
-        <div className='potluck-details'>
+        <PotluckDetailsDiv>
             <h1>Potluck</h1>
             <h2>{potluck.name}</h2>
             <h2>{potluck.host}</h2>
@@ -213,6 +214,6 @@ export default function PotluckDetails() {
                 return <p key={x.id}> {x.guest_name} - {guestClaimedFood(x.guest_name)? 'confirmed': 'pending'}</p>
                 })
             }
-        </div>
+        </PotluckDetailsDiv>
     )
 };  

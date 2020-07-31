@@ -21,5 +21,55 @@ margin-left: 5%;
     margin: 10px;
 }
 `
+const PotluckDetailsDiv = styled.div`
+width: 80%;
+margin: auto;
+padding: 20px 20px;
+text-align: center;
+border: 3px solid turquoise;
+border-radius: 6px;
+
+button {
+    padding: 5px 5px;
+    margin: 10px 10px;
+    color: blue;
+    background-color: coral;
+    border: 1px solid black;
+    border-radius: 4px;
+    :hover{
+        background-color: lightblue;
+    }
+}
+`
+const CreatePotluckDiv = styled.div`
+width: 80%;
+margin: auto;
+padding: 20px 20px;
+text-align: center;
+border: 3px solid turquoise;
+border-radius: 6px;
+
+button {
+    padding: 5px 5px;
+    margin: 10px 10px;
+    color: blue;
+    font-weight: bold;
+    background-color: coral;
+    border: 1px solid black;
+    border-radius: 4px;
+    :hover{
+        background-color: lightblue;
+    }
+}
+input {
+    border: 1px solid black;
+    font-weight: bold;
+    padding: 5px 5px;
+    margin: 10px 10px;
+}
+`
+
 export { PotluckListDiv };
 export { PotluckDiv };
+export { PotluckDetailsDiv };
+export { CreatePotluckDiv };
