@@ -43,6 +43,7 @@ export default function Registration(props) {
         .then(res => {
           setUsers([res.data, ...users])
           localStorage.setItem('userId', res.data.data.id)
+          localStorage.setItem('username', res.data.data.username)
           setFormValues(initialFormValues)
           console.log(res.data, "data sent to server!")
           history.push("/login");

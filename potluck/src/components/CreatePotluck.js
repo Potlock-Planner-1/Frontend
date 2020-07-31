@@ -49,7 +49,6 @@ export default function CreatePotluck() {
     const [guest, setGuest] = useState(firstGuest);
     const [guestList, setGuestList] = useState([]);
 
-
     const addPotluck = (evt) => {
         evt.preventDefault();
         let userId = localStorage.getItem('userId');
@@ -85,31 +84,47 @@ export default function CreatePotluck() {
         // console.log('addFoodtoPotluck called');
         // console.log('items: ' + JSON.stringify(foodItems));
         let newList = [...foodItems];
+        let promises = [];
         newList.map(x => {
             x.potluck_id = potluckId;
-            axiosWithAuth()
+            promises.push(axiosWithAuth()
                 // .put(`https://potluckplanner1.herokuapp.com/potlucks/${editPotluck.id}`, editPotluck)
                 .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/items`, x)
                 .then(res => {
+                    console.log(res, 'This is the food item')
                     x.id = res.data.id;
+                    return res.data.id
                 })
-                .catch(err => console.log('ERROR'));
+                .catch(err => console.log('ERROR')));
         })
-        setFoodItems(newList);
+        Promise.all(promises).then(results => {
+            for (let i=0; i<results.length; i++) {
+                newList[i].id = results[i];
+            }
+            setFoodItems(newList);
+        })
     };
 
     const addGuesttoPotluck = (potluckId) => {
         let newGuestList = [...guestList];
+        console.log('newGuestList: ' + JSON.stringify(newGuestList));
+        let promises = [];
         newGuestList.map(x => {
-            x.potluck_id = potluckId;
-            axiosWithAuth()
+            promises.push(axiosWithAuth()
                 .post(`https://potluckplanner1.herokuapp.com/api/potlucks/${potluckId}/guests`, x)
                 .then(res => {
                     x.id = res.data.id;
+                    return res.data.id;
                 })
-                .catch(err => console.log('ERROR'));
+                .catch(err => console.log('ERROR')));
         })
-        setGuest(newGuestList);
+        Promise.all(promises).then(results => {
+            for (let i=0; i<results.length; i++) {
+                newGuestList[i].id = results[i];
+            }
+            setGuest(newGuestList);
+        })
+
     };
 
     const addFood = (evt) => {

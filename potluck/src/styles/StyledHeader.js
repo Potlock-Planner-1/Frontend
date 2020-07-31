@@ -9,7 +9,7 @@ const HeaderStyle = styled.div`
         display:flex;
     }
     button{
-        width: 1% 5%;
+        width: 100px;
         margin: 1%;
         padding: 3px;
         background-color: white;
@@ -21,7 +21,8 @@ const HeaderStyle = styled.div`
         }
     }
     .link{
-        width: 1% 5%;
+        width: 100px;
+        text-align: center;
         margin: 1%;
         padding: 3px;
         text-decoration: none;

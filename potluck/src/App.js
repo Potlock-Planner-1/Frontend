@@ -14,20 +14,20 @@ import PotluckDetails from './components/PotluckDetails';
 function App() {
   return (
     <Router>
-    <div className="App">
-      {/* <Link to="/create-potluck">Time to gather</Link> */}
-      <Header />
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path='/register' component={Registration} />
-        <PrivateRoute exact path='/create-potluck' component={CreatePotluck} />
-        <PrivateRoute exact path= "/potluck-list" component={PotluckList} />
-        <PrivateRoute exact path='/potluck/:id' component={PotluckDetails} />
-        <Route path='/'>
-          <Redirect to='/potluck-list' />
-        </Route>
-      </Switch>
-    </div>
+      <div className='app'>
+        {/* <Link to="/create-potluck">Time to gather</Link> */}
+        <Header />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path='/register' component={Registration} />
+          <PrivateRoute exact path='/create-potluck' component={CreatePotluck} />
+          <PrivateRoute exact path="/potluck-list" component={PotluckList} />
+          <PrivateRoute exact path='/potluck/:id' component={PotluckDetails} />
+          <Route path='/'>
+            <Redirect to='/potluck-list' />
+          </Route>
+        </Switch>
+      </div>
     </Router>
   );
 }

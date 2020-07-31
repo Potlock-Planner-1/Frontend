@@ -112,6 +112,10 @@ export default function PotluckDetails() {
     }, [claimed]);
 
     const claimFood = (itemId) => {
+        if (guests.map(x => x.guest_name).indexOf(localStorage.getItem('username')) === -1 ) {
+            alert("You are not on the guestlist, so you can't claim");
+            return;
+        }
         axiosWithAuth()
             .put(`https://potluckplanner1.herokuapp.com/api/items/${itemId}`, {
                 claimed: localStorage.getItem('userId')
