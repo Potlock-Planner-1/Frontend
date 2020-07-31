@@ -187,11 +187,11 @@ export default function CreatePotluck() {
 
     return (
         <CreatePotluckDiv>
-            <h1>Potluck</h1>
+            <h1>Host a Potluck</h1>
             <form className='details-form'>
                 <div className='create-potluck'>
                     <input
-                        placeholder='Name'
+                        placeholder="Potluck's name"
                         type="text"
                         name="name"
                         value={potluck.name}

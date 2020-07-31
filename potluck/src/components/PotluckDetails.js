@@ -170,7 +170,6 @@ export default function PotluckDetails() {
     console.log('userIdName: ' + JSON.stringify(userIdName))
     return (
         <PotluckDetailsDiv>
-            <h1>Potluck</h1>
             <h2>{potluck.name}</h2>
             <h2>{potluck.host}</h2>
             <p>{potluck.date}<br /></p>
