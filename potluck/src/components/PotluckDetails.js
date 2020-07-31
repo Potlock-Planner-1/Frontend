@@ -214,7 +214,7 @@ export default function PotluckDetails() {
                 {
                     items.map(x => {
                         return <p key={x.id}>
-                            <button onClick={() => deleteItem(x.id)}> X </button>
+                            <button onClick={() => deleteItem(x.id)}> Delete </button>
                             {x.item_name} - {claimed[x.id] && userIdName[claimed[x.id]]? `claimed by ${userIdName[claimed[x.id]]}` : 'unclaimed'}
                             <span>
                                 {!claimed[x.id] &&
