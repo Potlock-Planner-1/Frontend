@@ -32,6 +32,7 @@ export default function PotluckDetails() {
     const [guests, setGuests] = useState([]);
     const [claimed, setClaimed] = useState({});
     const [userIdName, setUserIdName] = useState({});
+    const [hostName, setHostName] = useState('');
     let claimedDict = {};
     // const [editFoodItem, seteditFoodItem] = useState(initialFoodItem);
     const params = useParams();
@@ -44,6 +45,15 @@ export default function PotluckDetails() {
                 setPotluck(res.data)
             })
             .catch(err => console.log('ERROR'));
+    };
+
+    const fetchHostName = (hostId) => {
+        axiosWithAuth()
+        .get(`https://potluckplanner1.herokuapp.com/api/users/${hostId}`)
+        .then(res =>{
+            setHostName(res.data.username)
+        })
+        .catch(err => console.log('ERROR'));
     };
 
     const fetchItemDetails = (i) => {
@@ -97,6 +107,8 @@ export default function PotluckDetails() {
 
     useEffect(() => {
         fetchItemsInPotluck();
+        if (potluck.user_id)
+            fetchHostName(potluck.user_id);
     }, [potluck]);
 
     useEffect(() => {
@@ -193,10 +205,10 @@ export default function PotluckDetails() {
     return (
         <PotluckDetailsDiv>
             <h2>{potluck.name}</h2>
-            <h2>{potluck.host}</h2>
-            <p>{potluck.date}<br /></p>
-            <p>{potluck.time}<br /></p>
-            <p>{potluck.location}<br /></p>
+            {hostName && hostName.length && <h2>Host: {hostName}</h2>}
+            <p>When: {potluck.date}<br /></p>
+            <p>Time: {potluck.time}<br /></p>
+            <p>Where: {potluck.location}<br /></p>
             <h3>Food Menu</h3>
             <div>
                 {
