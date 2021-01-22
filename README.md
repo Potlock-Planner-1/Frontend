@@ -1,13 +1,14 @@
-# Frontend
+# Frontend developer - Potlock-Planner-1
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 https://potluckplanner2.netlify.app
 
-Tech Stack
+# Tech Stack
 
 React web client, connects to Express server with a SQLite datastore.
 
-Front End
+# Front End
 
 React - Because I love it! 
 
