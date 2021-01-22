@@ -3,6 +3,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 https://potluckplanner2.netlify.app
 
+Tech Stack
+
+React web client, connects to Express server with a SQLite datastore.
+
+Front End
+
+React - Because I love it! 
+
+Axios - API calls
+
+Yup - Form validation
+
 ## Available Scripts
 
 In the project directory, you can run:
